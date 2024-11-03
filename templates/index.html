@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Classifier</title>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: none;
+        }
+        .upload-btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .upload-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>File Classifier</h1>
+        <input type="file" id="fileInput" style="display: none;">
+        <button class="classify-btn" onclick="document.getElementById('fileInput').click()">
+            Classify File
+        </button>
+        <div id="result" class="result">
+            <h3>File Classification Result:</h3>
+            <p id="classificationText"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/classify_file', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                
+                // Show result
+                document.getElementById('result').style.display = 'block';
+                
+                if (data.status === 'success') {
+                    document.getElementById('classificationText').textContent = 
+                        `Classification: ${data.file_class}`;
+                } else {
+                    document.getElementById('classificationText').textContent = 
+                        `Error: ${data.message}`;
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('classificationText').textContent = 
+                    'Error occurred during classification';
+            }
+        });
+    </script>
+</body>
+</html> 
