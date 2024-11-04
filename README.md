@@ -19,6 +19,7 @@ In this repository, I extended the classifier with the following capabilities:
   - More advanced models like neural networks could be used to improve accuracy
   - Training data is generated synthetically using generative AI models like Claude-3.5-Sonnet
 - Updated the tests to exercise new functionalities
+- Added a CI workflow with Github Actions
 
 ## System Architecture
 
@@ -45,6 +46,8 @@ In this repository, I extended the classifier with the following capabilities:
    ```
 
 4. Test the classifier using the [web frontend](http://127.0.0.1:5000/). Upload a file from the `files/` directory to see the classification result.
+
+Note: it may take a while for the system to classify images initially as it needs to download some dependencies.
 
 5. Run tests:
    ```shell
