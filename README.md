@@ -1,5 +1,7 @@
 # Heron Coding Challenge - File Classifier Write-up
 
+![CI Status](https://github.com/ianhua2022/join-the-siege/actions/workflows/ci.yml/badge.svg)
+
 ## Overview
 
 The original classifier only classifies files based on their filenames, which is subject to errors like typos, misspellings, etc. Most importantly, the filename does not necessarily correctly indicate the file's content. In addition, it is not scalable to support other types of files from different industries.
