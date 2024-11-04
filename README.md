@@ -1,76 +1,52 @@
-# Heron Coding Challenge - File Classifier
+# Heron Coding Challenge - File Classifier Write-up
 
 ## Overview
 
-At Heron, we’re using AI to automate document processing workflows in financial services and beyond. Each day, we handle over 100,000 documents that need to be quickly identified and categorised before we can kick off the automations.
+The original classifier only classifies files based on their filenames, which is subject to errors like typos, misspellings, etc. Most importantly, the filename does not necessarily correctly indicate the file's content. In addition, it is not scalable to support other types of files from different industries.
 
-This repository provides a basic endpoint for classifying files by their filenames. However, the current classifier has limitations when it comes to handling poorly named files, processing larger volumes, and adapting to new industries effectively.
+In this repository, I extended the classifier with the following capabilities:
 
-**Your task**: improve this classifier by adding features and optimisations to handle (1) poorly named files, (2) scaling to new industries, and (3) processing larger volumes of documents.
+- Added a web frontend interface to facilitate testing and user interaction. Users only need to click a button to upload a file and get the classification result.
+- Separated file validation from file classification, making the code more maintainable and modular.
+- Used MIME type to validate file types rather than file extensions, and added support for more file types including:
+  - Documents (PDF, Text, Word, Excel, PowerPoint)
+  - Images (JPG, PNG, GIF, BMP, WebP, SVG)
+- Redesigned the classifier to have a two-level structure:
+  - Industry classification followed by file type classification for each specific industry
+  - More scalable for future industry additions
+  - Currently supports civil and finance industries (due to time constraints)
+- Built industry-specific classifiers using pre-trained logistic regression models:
+  - More advanced models like neural networks could be used to improve accuracy
+  - Training data is generated synthetically using generative AI models like Claude-3.5-Sonnet
+- Updated the tests to exercise new functionalities
 
-This is a real-world challenge that allows you to demonstrate your approach to building innovative and scalable AI solutions. We’re excited to see what you come up with! Feel free to take it in any direction you like, but we suggest:
+## System Architecture
 
+![System Architecture](system_arch.jpg)
 
-### Part 1: Enhancing the Classifier
+## Usage
 
-- What are the limitations in the current classifier that's stopping it from scaling?
-- How might you extend the classifier with additional technologies, capabilities, or features?
-
-
-### Part 2: Productionising the Classifier 
-
-- How can you ensure the classifier is robust and reliable in a production environment?
-- How can you deploy the classifier to make it accessible to other services and users?
-
-We encourage you to be creative! Feel free to use any libraries, tools, services, models or frameworks of your choice
-
-### Possible Ideas / Suggestions
-- Train a classifier to categorize files based on the text content of a file
-- Generate synthetic data to train the classifier on documents from different industries
-- Detect file type and handle other file formats (e.g., Word, Excel)
-- Set up a CI/CD pipeline for automatic testing and deployment
-- Refactor the codebase to make it more maintainable and scalable
-
-## Marking Criteria
-- **Functionality**: Does the classifier work as expected?
-- **Scalability**: Can the classifier scale to new industries and higher volumes?
-- **Maintainability**: Is the codebase well-structured and easy to maintain?
-- **Creativity**: Are there any innovative or creative solutions to the problem?
-- **Testing**: Are there tests to validate the service's functionality?
-- **Deployment**: Is the classifier ready for deployment in a production environment?
-
-
-## Getting Started
 1. Clone the repository:
-    ```shell
-    git clone <repository_url>
-    cd heron_classifier
-    ```
+   ```shell
+   git clone <repository_url>
+   cd join-the-siege
+   ```
 
 2. Install dependencies:
-    ```shell
-    python -m venv venv
-    source venv/bin/activate
-    pip install -r requirements.txt
-    ```
+   ```shell
+   python -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
 
 3. Run the Flask app:
-    ```shell
-    python -m src.app
-    ```
+   ```shell
+   python -m src.app
+   ```
 
-4. Test the classifier using a tool like curl:
-    ```shell
-    curl -X POST -F 'file=@path_to_pdf.pdf' http://127.0.0.1:5000/classify_file
-    ```
+4. Test the classifier using the [web frontend](http://127.0.0.1:5000/). Upload a file from the `files/` directory to see the classification result.
 
 5. Run tests:
    ```shell
-    pytest
-    ```
-
-## Submission
-
-Please aim to spend 3 hours on this challenge.
-
-Once completed, submit your solution by sharing a link to your forked repository. Please also provide a brief write-up of your ideas, approach, and any instructions needed to run your solution. 
+   pytest
+   ```

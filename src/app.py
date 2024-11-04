@@ -1,18 +1,13 @@
 from flask import Flask, request, jsonify, render_template
 import os
-from src.classifier import classify_file
+from src.validator import is_allowed_file
+from src.classifiers.classifier import classify_file
 
 # Get the absolute path to the project root directory
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 app = Flask(__name__, 
               template_folder=os.path.join(project_root, 'templates'),
               static_folder=os.path.join(project_root, 'static'))
-
-ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'doc', 'docx', 'xls', 'xlsx'}
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 @app.route('/classify_file', methods=['POST'])
 def classify_file_route():
@@ -33,11 +28,11 @@ def classify_file_route():
                 "message": "No file selected"
             }), 400
 
-        # Validate file extension
-        if not allowed_file(file.filename):
+        # Validate file
+        if not is_allowed_file(file):
             return jsonify({
                 "status": "error",
-                "message": f"File type not allowed. Supported types: {', '.join(ALLOWED_EXTENSIONS)}"
+                "message": "File type not allowed."
             }), 400
 
         # Perform classification

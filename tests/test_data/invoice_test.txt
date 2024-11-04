@@ -1,0 +1,1 @@
+Tax Invoice No: INV-789 Issue Date: 02/20/2023 Customer: Smith Industries Supplier: Tech Solutions LLC Services Rendered: IT Consulting (40 hrs) $4,000.00 Hardware Installation $1,500.00 Subtotal: $5,500.00 VAT (10%): $550.00 Total: $6,050.00 Payment Terms: Net 30
